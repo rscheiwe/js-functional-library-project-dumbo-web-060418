@@ -25,8 +25,8 @@ fi = (function() {
       // if (!acc){
       //   acc = coll[0]
       // }
-      for (let el of coll){
-      acc = callback(acc, el, coll)
+      for (let el of coll)  {
+        acc = callback(acc, el, coll)
       }
       return acc
     },
@@ -82,9 +82,60 @@ fi = (function() {
       return sorted
     },
 
-    functions: function() {
+    uniq: function(arr, sorted=false, callback=false) {
+      if (callback === false) {
+        return arr.filter((item, pos) => arr.indexOf(item) == pos)
+      }
+    },
+
+    // Basically, we iterate over the array and, for each element,
+    // check if the first position of this element in the array is
+    // equal to the current position. Obviously, these two
+    // positions are different for duplicate elements.
+
+
+    flatten: function(collection, shallow=false, result=[]) {
+
+        for (let el in collection) {
+          if (shallow === false) {
+            !Array.isArray(collection[el]) ? result.push(collection[el]) : fi.flatten(collection[el], false, result)
+          } else {
+            !Array.isArray(collection[el]) ? result.push(collection[el]) : collection[el].forEach((el) => result.push(el))
+          }
+        }
+
+      return result
+    },
+
+    keys: function(obj) {
+      let kys = []
+      for (let el in obj) {
+        kys.push(el);
+      }
+      return kys
+    },
+
+    values: function(obj) {
+      let vals = []
+      for (let el in obj) {
+        vals.push(obj[el]);
+      }
+      return vals;
+    },
+
+    functions: function(obj) {
+      let end = []
+      for (let el in obj) {
+        if (typeof obj[el] === 'function') {
+          end.push(el)
+        }
+      }
+      return end.sort()
 
     },
+
+
+
 
   }
 })()
